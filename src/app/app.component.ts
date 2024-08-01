@@ -1,15 +1,33 @@
 import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { RouterOutlet } from '@angular/router';
-import {DashboardComponent} from "./dashboard/dashboard.component";
+import {Router, NavigationEnd, RouterOutlet} from '@angular/router';
+import {SidebarComponent} from "./sidebar/sidebar.component";
+import {NavbarComponent} from "./navbar/navbar.component";
+import {MainContentComponent} from "./main-content/main-content.component";
+import {FooterComponent} from "./footer/footer.component";
+import {NgIf} from "@angular/common";
 
 @Component({
   selector: 'app-root',
-  standalone: true,
-  imports: [CommonModule, RouterOutlet, DashboardComponent],
   templateUrl: './app.component.html',
+  standalone: true,
+  imports: [
+    SidebarComponent,
+    NavbarComponent,
+    MainContentComponent,
+    FooterComponent,
+    RouterOutlet,
+    NgIf
+  ],
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'GestionDesRH';
+  showLayout: boolean = true;
+
+  constructor(private router: Router) {
+    this.router.events.subscribe(event => {
+      if (event instanceof NavigationEnd) {
+        this.showLayout = !['/login'].includes(event.urlAfterRedirects);
+      }
+    });
+  }
 }

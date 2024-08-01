@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Employe } from '../model/employe.model';
-import { EmployeService } from '../service/employe.service';
+import { User } from '../../model/user.model';
+import { UserService } from '../../service/user.service';
 import {HttpClient, HttpClientModule} from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 
@@ -10,15 +10,15 @@ import { CommonModule } from '@angular/common';
   styleUrls: ['./employe-list.component.css'],
   standalone: true,
   imports: [HttpClientModule, CommonModule],
-  providers: [EmployeService]
+  providers: [UserService]
 })
 export class EmployeListComponent implements OnInit {
-  employes: Employe[] = [];
+  employes: User[] = [];
 
-  constructor(private employeService: EmployeService) { }
+  constructor(private employeService: UserService) { }
 
   ngOnInit(): void {
-    this.employeService.getAllEmploye().subscribe(data => {
+    this.employeService.getAllEmployes().subscribe(data => {
       this.employes = data;
     });
   }
