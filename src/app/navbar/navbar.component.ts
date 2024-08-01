@@ -14,7 +14,6 @@ export class NavbarComponent implements OnInit {
   ngOnInit(): void {
     this.authService.loadToken();
     this.loggedUserName = this.authService.loggedUser;
-    console.log("loggedUserName: " + this.loggedUserName);
   }
 
   onLogout() {

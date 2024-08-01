@@ -1,30 +1,55 @@
-<main class="content">
+<main class="content d-flex justify-content-center align-items-center" style="height: 100vh;">
   <div class="col-12 col-lg-6">
     <div class="card">
       <div class="card-header">
-        <h5 class="card-title mb-0">Add Employe</h5>
+        <h5 class="card-title mb-0">Add New User</h5>
       </div>
       <div class="card-body">
-        <form>
+        <form #form="ngForm" (ngSubmit)="onSubmit(form)">
           <div class="mb-3">
             <label for="nom" class="form-label">Nom</label>
-            <input type="text" class="form-control" id="nom" placeholder="Nom">
+            <input type="text" class="form-control" id="nom" name="nom" ngModel placeholder="Nom" required>
           </div>
           <div class="mb-3">
             <label for="prenom" class="form-label">Prenom</label>
-            <input type="text" class="form-control" id="prenom" placeholder="Prenom">
+            <input type="text" class="form-control" id="prenom" name="prenom" ngModel placeholder="Prenom" required>
           </div>
           <div class="mb-3">
             <label for="email" class="form-label">Email</label>
-            <input type="email" class="form-control" id="email" placeholder="Email">
+            <input type="email" class="form-control" id="email" name="email" ngModel placeholder="Email" required>
           </div>
           <div class="mb-3">
             <label for="telephone" class="form-label">Telephone</label>
-            <input type="tel" class="form-control" id="telephone" placeholder="Telephone">
+            <input type="tel" class="form-control" id="telephone" name="telephone" ngModel placeholder="Telephone">
           </div>
           <div class="mb-3">
             <label for="soldeConges" class="form-label">Solde Conges</label>
-            <input type="number" class="form-control" id="soldeConges" placeholder="Solde Conges">
+            <input type="number" class="form-control" id="soldeConges" name="soldeConges" ngModel placeholder="Solde Conges">
+          </div>
+          <div class="mb-3">
+            <label for="poste" class="form-label">Poste</label>
+            <select class="form-control" id="poste" name="poste" ngModel required>
+              <option value="" disabled selected>Click to choose</option>
+              <option *ngFor="let poste of postes" [attr.value]="poste">{{ poste }}</option>
+            </select>
+          </div>
+          <div class="mb-3">
+            <label for="role" class="form-label">Roles</label>
+            <select class="form-control" id="role" name="role" ngModel (change)="onRoleChange($event)" required>
+              <option value="" disabled selected>Click to choose</option>
+              <option *ngFor="let role of roles" [attr.value]="role">{{ role }}</option>
+            </select>
+          </div>
+          <div class="mb-3">
+            <label for="fonction" class="form-label">Fonction</label>
+            <select class="form-control" id="fonction" name="fonction" ngModel required>
+              <option value="" disabled selected>Click to choose</option>
+              <option *ngFor="let fonction of fonctions" [attr.value]="fonction">{{ fonction }}</option>
+            </select>
+          </div>
+          <div class="mb-3">
+            <label for="motDePasse" class="form-label">Mot de Passe</label>
+            <input type="password" class="form-control" id="motDePasse" name="motDePasse" ngModel placeholder="Mot de Passe" required>
           </div>
           <button type="submit" class="btn btn-primary">Submit</button>
         </form>

@@ -42,8 +42,6 @@ export class AuthService {
     const decodedToken = this.helper.decodeToken(this.token);
     this.roles = decodedToken.roles;
     this.loggedUser = `${decodedToken.nom} ${decodedToken.prenom}`;
-    console.log("decodedToken:", decodedToken);
-    console.log("loggedUser:", this.loggedUser);
   }
 
   isAdmin(): Boolean {
