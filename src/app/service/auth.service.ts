@@ -17,6 +17,7 @@ export class AuthService {
   token!: string;
 
   public loggedUser!: string;
+  public userImage!: string;
   public isloggedIn: Boolean = false;
   public roles!: string[];
 
@@ -42,6 +43,7 @@ export class AuthService {
     const decodedToken = this.helper.decodeToken(this.token);
     this.roles = decodedToken.roles;
     this.loggedUser = `${decodedToken.nom} ${decodedToken.prenom}`;
+    this.userImage = decodedToken.photo;
   }
 
   isAdmin(): Boolean {
