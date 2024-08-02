@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpResponse } from '@angular/common/http';
 import { FormsModule, NgForm } from '@angular/forms';
-import { NgForOf } from "@angular/common";
+import { NgForOf, NgIf, NgStyle } from "@angular/common";
+import { UploadFileService } from '../../service/upload-file.service';
 
 @Component({
   selector: 'app-add-employe',
@@ -9,7 +10,9 @@ import { NgForOf } from "@angular/common";
   standalone: true,
   imports: [
     FormsModule,
-    NgForOf
+    NgForOf,
+    NgStyle,
+    NgIf
   ],
   styleUrls: ['./add-employe.component.css']
 })
@@ -20,13 +23,19 @@ export class AddEmployeComponent implements OnInit {
   selectedPoste: string = '';
   selectedRole: string = '';
   selectedFonction: string = '';
+  selectedFile: File | null = null;
+  progress = 0;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private uploadService: UploadFileService) {}
 
   ngOnInit(): void {
     this.fetchPostes();
     this.fetchRoles();
     this.fetchFonctions();
+  }
+
+  onFileChange(event: any): void {
+    this.selectedFile = event.target.files[0];
   }
 
   fetchPostes(): void {
@@ -56,16 +65,20 @@ export class AddEmployeComponent implements OnInit {
   }
 
   onSubmit(form: NgForm): void {
-    const formData = form.value;
+    const formData = new FormData();
+    formData.append('user', new Blob([JSON.stringify(form.value)], { type: 'application/json' }));
+    if (this.selectedFile) {
+      formData.append('file', this.selectedFile);
+    }
+
     this.http.post('http://localhost:9090/rh/api/users/create', formData)
       .subscribe(response => {
         console.log('User created successfully', response);
 
-        // Ensure selectedRole is set before making the request
         if (this.selectedRole) {
           this.http.post('http://localhost:9090/rh/api/users/addRoleToUser', null, {
             params: {
-              email: formData.email,
+              email: form.value.email,
               roleType: this.selectedRole
             }
           }).subscribe(roleResponse => {

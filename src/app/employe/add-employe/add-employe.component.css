@@ -1,5 +1,63 @@
 .card {
-  margin-top: 20px;
+  margin-top: 0px;
+  max-height: none;
+  overflow-y: visible;
+  padding: 15px;
+}
+
+main {
+  padding-top: 0;
+  margin: 0;
+}
+
+@media (max-width: 576px) {
+  .card {
+    margin: 1px;
+    padding: 10px;
+    max-height: 80vh;
+    overflow-y: auto;
+  }
+
+  .card-header {
+    text-align: center;
+  }
+
+  .form-control {
+    font-size: 0.9rem;
+  }
+
+  .btn {
+    padding: 8px;
+  }
+  .container {
+    padding-left: 0; /* Supprime le padding à gauche pour les petits écrans */
+    padding-right: 0; /* Supprime le padding à droite pour les petits écrans */
+  }
+}
+
+.row > .col-md-6 {
+  padding-right: 0.5rem;
+  padding-left: 0.5rem;
+}
+
+@media (min-width: 576px) {
+  .card {
+    padding: 20px;
+  }
+
+  .row > .col-md-6 {
+    display: inline-block;
+    width: 48%;
+    margin-right: 2%;
+  }
+
+  .row > .col-md-6:last-child {
+    margin-right: 0;
+  }
+}
+
+.mb-3 {
+  margin-bottom: 0.5rem; /* Réduit l'espacement entre les champs */
 }
 
 .card-header {
@@ -24,3 +82,22 @@
   background-color: #0056b3;
   border-color: #004085;
 }
+
+
+.content {
+  margin-top: 0; /* Assure que le contenu commence juste après la barre de navigation */
+}
+
+.container {
+  margin-bottom: 0; /* Réduit la marge inférieure */
+}
+
+.row {
+  margin: 0; /* Supprime les marges entre les lignes */
+}
+
+.col-12, .col-lg-6 {
+  padding: 0.5rem; /* Réduit les espacements internes des colonnes */
+}
+
+
