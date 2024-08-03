@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpEventType, HttpResponse } from '@angular/common/http';
-import { UploadFileService } from '../service/upload-file.service';
+import { UploadFileService } from '../../core/service/upload-file.service';
 import { AsyncPipe, NgStyle, CommonModule } from '@angular/common';
 
 @Component({

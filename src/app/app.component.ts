@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import {Router, NavigationEnd, RouterOutlet} from '@angular/router';
-import {SidebarComponent} from "./sidebar/sidebar.component";
-import {NavbarComponent} from "./navbar/navbar.component";
-import {MainContentComponent} from "./main-content/main-content.component";
-import {FooterComponent} from "./footer/footer.component";
+import {SidebarComponent} from "./layouts/sidebar/sidebar.component";
+import {NavbarComponent} from "./layouts/navbar/navbar.component";
+import {MainContentComponent} from "./layouts/main-content/main-content.component";
+import {FooterComponent} from "./layouts/footer/footer.component";
 import {NgIf} from "@angular/common";
 
 @Component({

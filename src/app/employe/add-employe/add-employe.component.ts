@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { FormsModule, NgForm } from '@angular/forms';
 import { NgForOf, NgIf, NgStyle } from "@angular/common";
-import { UploadFileService } from '../../service/upload-file.service';
+import { UploadFileService } from '../../core/service/upload-file.service';
 
 @Component({
   selector: 'app-add-employe',
