@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { FormsModule, NgForm } from '@angular/forms';
-import { NgForOf, NgIf, NgStyle } from "@angular/common";
-import { UploadFileService } from '../../core/service/upload-file.service';
+import {FormsModule, NgForm} from '@angular/forms';
+import { UserService } from '../../core/service/user.service';
+import {NgForOf, NgIf} from "@angular/common";
 
 @Component({
   selector: 'app-add-employe',
@@ -10,9 +9,8 @@ import { UploadFileService } from '../../core/service/upload-file.service';
   standalone: true,
   imports: [
     FormsModule,
-    NgForOf,
-    NgStyle,
-    NgIf
+    NgIf,
+    NgForOf
   ],
   styleUrls: ['./add-employe.component.css']
 })
@@ -27,7 +25,7 @@ export class AddEmployeComponent implements OnInit {
   progress = 0;
   errors: any = {};
 
-  constructor(private http: HttpClient, private uploadService: UploadFileService) {}
+  constructor(private userService: UserService) {}
 
   ngOnInit(): void {
     this.fetchPostes();
@@ -40,24 +38,21 @@ export class AddEmployeComponent implements OnInit {
   }
 
   fetchPostes(): void {
-    this.http.get<string[]>('http://localhost:9090/rh/api/users/postes')
-      .subscribe(data => {
-        this.postes = data;
-      });
+    this.userService.getPostes().subscribe(data => {
+      this.postes = data;
+    });
   }
 
   fetchRoles(): void {
-    this.http.get<string[]>('http://localhost:9090/rh/api/users/roles')
-      .subscribe(data => {
-        this.roles = data;
-      });
+    this.userService.getRoles().subscribe(data => {
+      this.roles = data;
+    });
   }
 
   fetchFonctions(): void {
-    this.http.get<string[]>('http://localhost:9090/rh/api/users/fonctions')
-      .subscribe(data => {
-        this.fonctions = data;
-      });
+    this.userService.getFonctions().subscribe(data => {
+      this.fonctions = data;
+    });
   }
 
   onRoleChange(event: Event): void {
@@ -78,27 +73,31 @@ export class AddEmployeComponent implements OnInit {
   onSubmit(form: NgForm): void {
     this.errors = {}; // Réinitialiser les erreurs
 
-    // Préparer les données pour l'envoi
-    const formData = new FormData();
-    formData.append('user', new Blob([JSON.stringify({
+    const user = {
       ...form.value,
       roles: [this.selectedRole],
       postes: [this.selectedPoste],
       fonctions: [this.selectedFonction]
-    })], { type: 'application/json' }));
+    };
 
-    if (this.selectedFile) {
-      formData.append('file', this.selectedFile);
-    }
+    this.userService.validateUser(user).subscribe(
+      () => {
+        const formData = new FormData();
+        formData.append('user', new Blob([JSON.stringify(user)], { type: 'application/json' }));
 
-    // Envoyer les données pour la création de l'utilisateur directement
-    this.http.post('http://localhost:9090/rh/api/users/create', formData)
-      .subscribe(response => {
-        console.log('User created successfully', response);
-      }, error => {
-        console.error('Error creating user', error);
-      });
+        if (this.selectedFile) {
+          formData.append('file', this.selectedFile);
+        }
+
+        this.userService.createUser(formData).subscribe(response => {
+          console.log('User created successfully', response);
+        }, error => {
+          console.error('Error creating user', error);
+        });
+      },
+      error => {
+        this.errors = error.error;
+      }
+    );
   }
-
-
 }
