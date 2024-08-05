@@ -76,32 +76,29 @@ export class AddEmployeComponent implements OnInit {
   }
 
   onSubmit(form: NgForm): void {
-    this.errors = {}; // Reset errors
-    if (form.invalid) {
-      console.log('Form is invalid');
-      return;
-    }
+    this.errors = {}; // Réinitialiser les erreurs
 
+    // Préparer les données pour l'envoi
     const formData = new FormData();
-    formData.append('user', new Blob([JSON.stringify(form.value)], { type: 'application/json' }));
+    formData.append('user', new Blob([JSON.stringify({
+      ...form.value,
+      roles: [this.selectedRole],
+      postes: [this.selectedPoste],
+      fonctions: [this.selectedFonction]
+    })], { type: 'application/json' }));
+
     if (this.selectedFile) {
       formData.append('file', this.selectedFile);
     }
 
-    this.http.post('http://localhost:9090/rh/api/saisie/validate', form.value)
-      .subscribe({
-        next: () => {
-          this.http.post('http://localhost:9090/rh/api/users/create', formData)
-            .subscribe(response => {
-              console.log('User created successfully', response);
-            }, error => {
-              console.error('Error creating user', error);
-            });
-        },
-        error: (errorResponse) => {
-          console.log('Validation errors:', errorResponse.error);
-          this.errors = errorResponse.error;
-        }
+    // Envoyer les données pour la création de l'utilisateur directement
+    this.http.post('http://localhost:9090/rh/api/users/create', formData)
+      .subscribe(response => {
+        console.log('User created successfully', response);
+      }, error => {
+        console.error('Error creating user', error);
       });
   }
+
+
 }
