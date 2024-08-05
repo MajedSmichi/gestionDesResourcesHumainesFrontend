@@ -28,6 +28,8 @@ export class LoginComponent {
     this.authService.login(this.user).subscribe({
       next: (response) => {
         try {
+          let token = response.headers.get('Authorization');
+          this.authService.saveToken(token as string);
           if (response.body) {
             const jsonResponse = JSON.parse(response.body as string);
             console.log("Login successful", jsonResponse);
