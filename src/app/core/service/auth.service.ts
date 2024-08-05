@@ -24,7 +24,7 @@ export class AuthService {
   constructor(private router: Router, private http: HttpClient) {}
 
   login(user: User) {
-    return this.http.post<User>(this.apiURL + '/login', user, { observe: 'response' });
+    return this.http.post(this.apiURL + '/login', user, { observe: 'response', responseType: 'text' });
   }
 
   saveToken(jwt: string) {

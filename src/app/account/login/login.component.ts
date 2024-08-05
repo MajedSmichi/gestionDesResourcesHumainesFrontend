@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
 import { AuthService } from '../../core/service/auth.service';
-import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { User } from '../../core/model/user.model';
-import {NgIf} from "@angular/common";
+import { FormsModule } from '@angular/forms';
+import { NgIf } from '@angular/common';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-login',
@@ -17,7 +18,7 @@ import {NgIf} from "@angular/common";
 })
 export class LoginComponent {
   user: User = new User();
-  err: number = 0;
+  errorMessage: string | null = null;
 
   constructor(private authService: AuthService, private router: Router) {}
 
@@ -25,13 +26,27 @@ export class LoginComponent {
 
   onLoggedin() {
     this.authService.login(this.user).subscribe({
-      next: (data) => {
-        let jwToken = data.headers.get('Authorization')!;
-        this.authService.saveToken(jwToken);
-        this.router.navigate(['/dashboard']);
+      next: (response) => {
+        try {
+          if (response.body) {
+            const jsonResponse = JSON.parse(response.body as string);
+            console.log("Login successful", jsonResponse);
+          } else {
+            console.log("Login successful", response.body);
+          }
+          this.router.navigate(['/dashboard']);
+        } catch (e) {
+          console.log("Login successful", response.body);
+          this.router.navigate(['/dashboard']);
+        }
       },
-      error: (err: any) => {
-        this.err = 1;
+      error: (error: HttpErrorResponse) => {
+        console.error("Login error", error);
+        if (error.status === 401) {
+          this.errorMessage = "Credentials not correct.";
+        } else if (error.status === 404) {
+          this.errorMessage = "Email not registered yet.";
+        }
       }
     });
   }

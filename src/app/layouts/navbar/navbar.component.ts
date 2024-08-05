@@ -15,7 +15,6 @@ export class NavbarComponent implements OnInit {
   ngOnInit(): void {
     this.authService.loadToken();
     this.loggedUserName = this.authService.loggedUser;
-    console.log('User Image Path:', this.authService.userImage); // Vérifie la valeur
     this.userImage = this.authService.userImage ? `http://localhost:9090/rh/uploads/${this.authService.userImage}` : 'default-image-url';
   }
 
