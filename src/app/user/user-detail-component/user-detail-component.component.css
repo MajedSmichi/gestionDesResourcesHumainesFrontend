@@ -1,0 +1,20 @@
+@media (min-width: 768px) {
+  main {
+    margin-top: -150px;
+  }
+}
+
+/* Set buttons to the same width and center them */
+.button-group {
+  display: flex;
+  justify-content: center;
+  gap: 10px; /* Adjust the gap as needed */
+
+}
+
+.button-group .btn {
+  flex: 1;
+  max-width: 180px; /* Adjust the max-width as needed */
+  max-height: 200px; /* Adjust the max-height as needed */
+
+}

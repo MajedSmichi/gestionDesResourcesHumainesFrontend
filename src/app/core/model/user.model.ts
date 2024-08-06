@@ -1,3 +1,7 @@
+import { Role } from './role.model';
+import { Poste } from './poste.model';
+import { Fonction } from './fonction.model';
+
 export class User {
   id!: number;
   nom!: string;
@@ -7,8 +11,8 @@ export class User {
   telephone!: number;
   soldeConges!: number;
   active!: boolean;
-  fonction!: string;
   photo!: string;
-  poste!: string;
-  roles!: string[];
+  roles!: Role[];
+  postes!: Poste[];
+  fonctions!: Fonction[];
 }

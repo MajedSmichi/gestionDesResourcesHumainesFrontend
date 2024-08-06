@@ -1,10 +1,12 @@
+// app.routes.ts
 import { Routes } from '@angular/router';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { HomeComponent } from './layouts/home/home.component';
 import { DashboardComponent } from './layouts/dashboard/dashboard.component';
-import { UserListComponent } from './employe/user-list/user-list.component';
-import { AddUserComponent } from './employe/add-user/add-user.component';
+import { UserListComponent } from './user/user-list/user-list.component';
+import { AddUserComponent } from './user/add-user/add-user.component';
 import { LoginComponent } from './account/login/login.component';
+import { UserDetailComponent } from './user/user-detail-component/user-detail-component.component';
 
 export const routes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -13,6 +15,7 @@ export const routes: Routes = [
   { path: 'add-user', component: AddUserComponent },
   { path: 'login', component: LoginComponent },
   { path: 'dashboard', component: DashboardComponent },
-  { path: '', redirectTo: '/login', pathMatch: 'full' }, // Redirect to login page by default
+  { path: 'user-detail/:id', component: UserDetailComponent },
+  { path: '', redirectTo: '/login', pathMatch: 'full' },
   { path: '**', redirectTo: '/login' }
 ];

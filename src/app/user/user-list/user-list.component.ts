@@ -1,3 +1,4 @@
+// user-list.component.ts
 import { Component, OnInit } from '@angular/core';
 import { User } from '../../core/model/user.model';
 import { UserService } from '../../core/service/user.service';
@@ -22,7 +23,10 @@ export class UserListComponent implements OnInit {
 
   ngOnInit(): void {
     this.userService.getAllUser().subscribe(data => {
-      this.users = data;
+      this.users = data.map(user => {
+        user.photo = `http://localhost:9090/rh/uploads/${user.photo}`;
+        return user;
+      });
     });
   }
 
@@ -55,5 +59,9 @@ export class UserListComponent implements OnInit {
         return user;
       });
     });
+  }
+
+  viewUser(user: User) {
+    this.router.navigate(['/user-detail', user.id]);
   }
 }
