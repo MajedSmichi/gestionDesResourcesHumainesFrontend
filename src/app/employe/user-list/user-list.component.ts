@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { User } from '../../core/model/user.model';
 import { UserService } from '../../core/service/user.service';
-import {HttpClient, HttpClientModule} from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
-import {Router, RouterModule} from "@angular/router";
+import { Router } from '@angular/router';
+import { AuthService } from '../../core/service/auth.service';
 
 @Component({
   selector: 'app-employe-list',
@@ -15,8 +16,9 @@ import {Router, RouterModule} from "@angular/router";
 })
 export class UserListComponent implements OnInit {
   users: User[] = [];
+  authenticatedUserId: number | null = null;
 
-  constructor(private userService: UserService,private router:Router) { }
+  constructor(private userService: UserService, private router: Router, private authService: AuthService) { }
 
   ngOnInit(): void {
     this.userService.getAllUser().subscribe(data => {
@@ -27,8 +29,30 @@ export class UserListComponent implements OnInit {
   deleteUser(id: number) {
     this.userService.deleteUser(id).subscribe(data => {
       this.users = this.users.filter(e => e.id !== id);
-      this.router.navigateByUrl('/',{skipLocationChange:true}).then(()=>{
+      this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
         this.router.navigate(['/user-list']);
+      });
+    });
+  }
+
+  enableUser(id: number) {
+    this.userService.enableUser(id).subscribe(() => {
+      this.users = this.users.map(user => {
+        if (user.id === id) {
+          user.active = true;
+        }
+        return user;
+      });
+    });
+  }
+
+  disableUser(id: number) {
+    this.userService.disableUser(id).subscribe(() => {
+      this.users = this.users.map(user => {
+        if (user.id === id) {
+          user.active = false;
+        }
+        return user;
       });
     });
   }

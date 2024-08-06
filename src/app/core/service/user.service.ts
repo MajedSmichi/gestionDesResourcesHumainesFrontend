@@ -40,4 +40,12 @@ export class UserService {
     return this.http.delete(`${this.apiUrl}/delete/${id}`);
   }
 
+  enableUser(id: number): Observable<any> {
+    return this.http.put(`${this.apiUrl}/enable/${id}`, null);
+  }
+
+  disableUser(id: number): Observable<any> {
+    return this.http.put(`${this.apiUrl}/disable/${id}`, null);
+  }
+
 }
