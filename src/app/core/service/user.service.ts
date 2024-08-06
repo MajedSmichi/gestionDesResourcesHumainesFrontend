@@ -31,7 +31,13 @@ export class UserService {
   validateUser(user: User): Observable<any> {
     return this.http.post(`${this.apiUrl1}/validate`, user);
   }
-  getAllEmployes(): Observable<User[]> {
-    return this.http.get<User[]>(this.apiUrl);
+
+  getAllUser(): Observable<User[]> {
+    return this.http.get<User[]>(`${this.apiUrl}/all`);
   }
+
+  deleteUser(id: number): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/delete/${id}`);
+  }
+
 }

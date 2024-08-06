@@ -2,19 +2,20 @@ import { Component, OnInit } from '@angular/core';
 import {FormsModule, NgForm} from '@angular/forms';
 import { UserService } from '../../core/service/user.service';
 import {NgForOf, NgIf} from "@angular/common";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-add-employe',
-  templateUrl: './add-employe.component.html',
+  templateUrl: './add-user.component.html',
   standalone: true,
   imports: [
     FormsModule,
     NgIf,
     NgForOf
   ],
-  styleUrls: ['./add-employe.component.css']
+  styleUrls: ['./add-user.component.css']
 })
-export class AddEmployeComponent implements OnInit {
+export class AddUserComponent implements OnInit {
   postes: string[] = [];
   roles: string[] = [];
   fonctions: string[] = [];
@@ -24,8 +25,9 @@ export class AddEmployeComponent implements OnInit {
   selectedFile: File | null = null;
   progress = 0;
   errors: any = {};
+  successMessage: string = '';
 
-  constructor(private userService: UserService) {}
+  constructor(private userService: UserService,private router: Router) {}
 
   ngOnInit(): void {
     this.fetchPostes();
@@ -91,6 +93,11 @@ export class AddEmployeComponent implements OnInit {
 
         this.userService.createUser(formData).subscribe(response => {
           console.log('User created successfully', response);
+          this.successMessage ='User added successfully';
+          form.resetForm();
+          setTimeout(() => {
+            this.router.navigate(['/user-list']);
+          }, 2000);
         }, error => {
           console.error('Error creating user', error);
         });
