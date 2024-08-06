@@ -48,8 +48,8 @@ export class UserService {
     return this.http.put(`${this.apiUrl}/disable/${id}`, null);
   }
 
-  updateUser(user: User): Observable<User> {
-    return this.http.put<User>(`${this.apiUrl}/update/${user.id}`, user);
+  updateUserById(id: number, user: User): Observable<User> {
+    return this.http.put<User>(`${this.apiUrl}/update/${id}`, user);
   }
 
   getUserById(id: number): Observable<User> {

@@ -64,4 +64,9 @@ export class UserListComponent implements OnInit {
   viewUser(user: User) {
     this.router.navigate(['/user-detail', user.id]);
   }
+
+
+  editUser(user: User) {
+    this.router.navigate(['/user-detail', user.id], { queryParams: { edit: true } });
+  }
 }
