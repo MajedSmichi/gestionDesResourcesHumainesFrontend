@@ -32,6 +32,10 @@ export class UserService {
     return this.http.post(`${this.apiUrl1}/validate`, user);
   }
 
+  validateEditUser(user: User): Observable<any> {
+    return this.http.post(`${this.apiUrl1}/editValidate`, user);
+  }
+
   getAllUser(): Observable<User[]> {
     return this.http.get<User[]>(`${this.apiUrl}/all`);
   }

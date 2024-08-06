@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UserService } from '../../core/service/user.service';
 import { User } from '../../core/model/user.model';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, NgForm } from '@angular/forms';
 import { NgForOf, NgIf } from "@angular/common";
 
 @Component({
@@ -26,6 +26,7 @@ export class UserDetailComponent implements OnInit {
   selectedPoste: string = '';
   selectedRole: string = '';
   selectedFonction: string = '';
+  errors: any = {};
 
   constructor(private route: ActivatedRoute, private userService: UserService, private router: Router) { }
 
@@ -47,21 +48,30 @@ export class UserDetailComponent implements OnInit {
     }
   }
 
-  toggleEditMode(): void {
+  toggleEditMode(form: NgForm): void {
     if (this.isEditMode) {
-      // Save changes
-      this.user!.postes[0].posteType = this.selectedPoste;
-      this.user!.roles[0].roleType = this.selectedRole;
-      this.user!.fonctions[0].fonctionType = this.selectedFonction;
-      console.log('Updating user:', this.user); // Debug log
-      this.userService.updateUserById(this.user!.id, this.user!).subscribe(
+      // Clear all errors
+      this.clearAllErrors();
+
+      this.userService.validateEditUser(this.user!).subscribe(
         () => {
-          console.log('User updated successfully'); // Debug log
-          this.isEditMode = false;
-          this.editButtonText = 'Edit';
+          // Save changes
+          this.user!.postes[0].posteType = this.selectedPoste;
+          this.user!.roles[0].roleType = this.selectedRole;
+          this.user!.fonctions[0].fonctionType = this.selectedFonction;
+          this.userService.updateUserById(this.user!.id, this.user!).subscribe(
+            () => {
+              this.isEditMode = false;
+              this.editButtonText = 'Edit';
+            },
+            error => {
+              console.error('Error updating user:', error);
+              this.errors = error.error;
+            }
+          );
         },
         error => {
-          console.error('Error updating user:', error); // Debug log
+          this.errors = error.error;
         }
       );
     } else {
@@ -89,6 +99,16 @@ export class UserDetailComponent implements OnInit {
     this.userService.getFonctions().subscribe(data => {
       this.fonctions = data;
     });
+  }
+
+  clearError(field: string): void {
+    if (this.errors[field]) {
+      delete this.errors[field];
+    }
+  }
+
+  clearAllErrors(): void {
+    this.errors = {};
   }
 
   returnToUserList(): void {
