@@ -1,0 +1,62 @@
+.card {
+  margin-bottom: 20px;
+}
+
+.card-body {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.card-title {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.card-text {
+  font-size: 1rem;
+  margin-bottom: 10px;
+  color: #555;
+}
+
+.card-text strong {
+  color: #000;
+}
+
+.btn-md {
+  margin-right: 5px;
+}
+
+.shadow-sm {
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075) !important;
+}
+
+.border-0 {
+  border: none !important;
+}
+
+.rounded-lg {
+  border-radius: 0.5rem !important;
+}
+
+.btn-md {
+  width: 100%;
+  margin: 0 0.5rem 0 0; /* Add spacing between buttons */
+}
+
+.btn-md:last-child {
+  margin-right: 0;
+}
+
+.d-flex .btn-md {
+  flex-grow: 1; /* Make buttons take equal space */
+}
+
+/* Add margin-bottom to cards in vertical view */
+@media (max-width: 767.98px) {
+  .card {
+    margin-bottom: 20px !important;
+  }
+}

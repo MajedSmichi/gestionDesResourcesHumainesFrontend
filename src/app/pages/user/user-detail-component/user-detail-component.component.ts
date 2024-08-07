@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { UserService } from '../../core/service/user.service';
-import { User } from '../../core/model/user.model';
+import { UserService } from '../../../core/service/user.service';
+import { User } from '../../../core/model/user.model';
 import { FormsModule, NgForm } from '@angular/forms';
 import { NgForOf, NgIf } from "@angular/common";
 

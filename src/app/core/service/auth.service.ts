@@ -75,4 +75,18 @@ export class AuthService {
   isTokenExpired(): Boolean {
     return this.helper.isTokenExpired(this.token);
   }
+
+  getCurrentUserFromToken(): User {
+    const decodedToken = this.helper.decodeToken(this.token);
+    return {
+      id: decodedToken.id,
+      email: decodedToken.sub,
+      nom: decodedToken.nom,
+      prenom: decodedToken.prenom,
+      photo: decodedToken.photo,
+      telephone: decodedToken.telephone,
+      soldeConges: decodedToken.soldeConges,
+      active: decodedToken.active
+    } as User;
+  }
 }
