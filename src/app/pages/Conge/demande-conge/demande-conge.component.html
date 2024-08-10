@@ -3,20 +3,27 @@
   <form (ngSubmit)="onSubmit()" #demandeCongeForm="ngForm">
     <div class="mb-3">
       <label for="dateDebut" class="form-label">Date Début</label>
-      <input type="date" id="dateDebut" name="dateDebut" class="form-control" [(ngModel)]="newDemande.dateDebut" (ngModelChange)="validateDates()" [min]="minDate" required>
+      <input type="date" id="dateDebut" name="dateDebut" class="form-control" [(ngModel)]="newDemande.dateDebut" [min]="minDate" required (change)="onDateChange('dateDebut', $event)" (focus)="clearError('dateDebut')">
+      <div *ngIf="errors.dateDebut" class="text-danger">{{ errors.dateDebut || 'Erreur de date de début' }}</div>
     </div>
     <div class="mb-3">
       <label for="dateFin" class="form-label">Date Fin</label>
-      <input type="date" id="dateFin" name="dateFin" class="form-control" [(ngModel)]="newDemande.dateFin" (ngModelChange)="validateDates()" [min]="minDate" required>
+      <input type="date" id="dateFin" name="dateFin" class="form-control" [(ngModel)]="newDemande.dateFin" [min]="minDate" required (change)="onDateChange('dateFin', $event)" (focus)="clearError('dateFin')">
+      <div *ngIf="errors.dateFin" class="text-danger">{{ errors.dateFin || 'Erreur de date de fin' }}</div>
+      <div *ngIf="errors.date" class="text-danger">{{ errors.date }}</div>
+      <div *ngIf="errors.soldeConges" class="text-danger">{{ errors.soldeConges }}</div>
     </div>
+
     <div class="mb-3">
       <label for="raison" class="form-label">Raison</label>
-      <input type="text" id="raison" name="raison" class="form-control" [(ngModel)]="newDemande.raison" required>
+      <input type="text" id="raison" name="raison" class="form-control" [(ngModel)]="newDemande.raison" required (focus)="clearError('raison')">
+      <div *ngIf="errors.raison" class="text-danger">{{ errors.raison }}</div>
     </div>
     <div class="mb-3">
       <label for="type" class="form-label">Type</label>
-      <input type="text" id="type" name="type" class="form-control" [(ngModel)]="newDemande.type" required>
+      <input type="text" id="type" name="type" class="form-control" [(ngModel)]="newDemande.type" required (focus)="clearError('type')">
+      <div *ngIf="errors.type" class="text-danger">{{ errors.type }}</div>
     </div>
-    <button type="submit" class="btn btn-primary" [disabled]="dateError">Soumettre</button>
+    <button type="submit" class="btn btn-primary">Soumettre</button>
   </form>
 </main>

@@ -15,10 +15,9 @@ import { User } from '../../../core/model/user.model';
 })
 export class DemandeCongeComponent implements OnInit {
   newDemande: DemandeConge = new DemandeConge();
-  demandes: DemandeConge[] = [];
-  dateError: boolean = false;
   minDate: string | undefined;
   currentUser: User | undefined;
+  errors: any = {};
 
   constructor(
     private demandeCongeService: DemandeCongeService,
@@ -28,35 +27,52 @@ export class DemandeCongeComponent implements OnInit {
   ngOnInit(): void {
     this.setMinDate();
     this.setCurrentUser();
+    this.setDefaultDates();
   }
-
-
 
   setMinDate(): void {
     const today = new Date();
     this.minDate = today.toISOString().split('T')[0];
   }
 
-  validateDates(): void {
-    const currentDate = new Date();
-    this.dateError = this.newDemande.dateDebut < currentDate || this.newDemande.dateFin < currentDate;
-  }
-
   setCurrentUser(): void {
     this.currentUser = this.authService.getCurrentUserFromToken();
   }
 
-  onSubmit(): void {
-    if (!this.dateError && this.currentUser) {
-      this.newDemande.user = this.currentUser;
-      console.log('id', this.currentUser.id);
-      console.log(this.currentUser);
-      console.log(this.newDemande);
-      this.demandeCongeService.saveDemandeConge(this.newDemande).subscribe(() => {
-        this.newDemande = new DemandeConge();
-        console.log('Demande de congé ajoutée avec succès');
+  setDefaultDates(): void {
+    const today = new Date();
+    const formattedDate = today.toISOString().split('T')[0];
+    this.newDemande.dateDebut = formattedDate;
+    this.newDemande.dateFin = formattedDate;
+  }
 
-      });
-    }
+  onDateChange(field: string, event: Event): void {
+    const input = event.target as HTMLInputElement;
+    console.log(`${field} selected:`, input.value);
+  }
+
+  clearError(field: string): void {
+    this.errors[field] = null;
+  }
+
+  onSubmit(): void {
+    this.errors = {}; // Réinitialiser les erreurs avant de soumettre
+
+    this.demandeCongeService.validateDemandeConge(this.newDemande, this.currentUser?.id).subscribe(
+      () => {
+        if (this.currentUser) {
+          this.newDemande.user = this.currentUser;
+          this.demandeCongeService.saveDemandeConge(this.newDemande).subscribe(() => {
+            this.newDemande = new DemandeConge();
+            console.log('Demande de congé ajoutée avec succès');
+          });
+        }
+      },
+      (error: any) => {
+        console.log('Received error response:', error); // Log la réponse d'erreur
+        this.errors = error || {};
+        console.log('Processed errors:', this.errors);
+      }
+    );
   }
 }

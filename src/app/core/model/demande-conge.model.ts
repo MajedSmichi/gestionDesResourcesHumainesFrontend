@@ -3,8 +3,8 @@ import { DemandeCongeStatus } from './demande-conge-status.enum';
 
 export class DemandeConge {
   id?: number;
-  dateDebut: Date;
-  dateFin: Date;
+  dateDebut: string | Date;
+  dateFin: string | Date;
   raison: string;
   status: DemandeCongeStatus;
   user: User;
@@ -12,8 +12,8 @@ export class DemandeConge {
   type: string;
 
   constructor(
-    dateDebut?: Date,
-    dateFin?: Date,
+    dateDebut?: string,
+    dateFin?: string,
     raison?: string,
     status?: DemandeCongeStatus,
     user?: User,

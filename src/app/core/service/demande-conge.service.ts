@@ -45,6 +45,15 @@ export class DemandeCongeService {
     );
   }
 
+  validateDemandeConge(demande: DemandeConge, userId: number | undefined): Observable<DemandeConge> {
+    return this.http.post<DemandeConge>(`${this.apiUrl}/validate?userId=${userId}`, demande).pipe(
+      catchError((error: HttpErrorResponse) => {
+        console.error('Error validating demande conge:', error);
+        return throwError(() => error.error);
+      })
+    );
+  }
+
 
 
 
