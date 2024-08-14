@@ -8,6 +8,10 @@ import { LoginComponent } from './account/login/login.component';
 import { UserDetailComponent } from './pages/user/user-detail-component/user-detail-component.component';
 import {DemandeCongeComponent} from "./pages/Conge/demande-conge/demande-conge.component";
 import {ListCongeComponent} from "./pages/Conge/list-conge/list-conge.component";
+import {AttestationDeTravailFormComponent} from "./pages/attestation-de-travail/Add-attestation-de-travail/attestation-de-travail.component";
+import {
+  ListAttestationDeTravailComponent
+} from "./pages/attestation-de-travail/list-attestation-de-travail/list-attestation-de-travail.component";
 
 export const routes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -19,6 +23,8 @@ export const routes: Routes = [
   { path: 'user-detail/:id', component: UserDetailComponent },
   { path: 'demandConge',component: DemandeCongeComponent},
   { path: 'list-conge', component: ListCongeComponent },
+  { path: 'work-certificate', component:AttestationDeTravailFormComponent},
+  { path: 'list-Work-certificate', component:ListAttestationDeTravailComponent},
   { path: '', redirectTo: '/login', pathMatch: 'full' },
   { path: '**', redirectTo: '/login' }
 ];

@@ -5,6 +5,7 @@ import { DemandeConge } from '../../../core/model/demande-conge.model';
 import { DemandeCongeService } from '../../../core/service/demande-conge.service';
 import { AuthService } from '../../../core/service/auth.service';
 import { User } from '../../../core/model/user.model';
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-demande-conge',
@@ -18,16 +19,21 @@ export class DemandeCongeComponent implements OnInit {
   minDate: string | undefined;
   currentUser: User | undefined;
   errors: any = {};
+  successMessage: string = '';
+  demandes: DemandeConge[] = [];
+
 
   constructor(
     private demandeCongeService: DemandeCongeService,
-    private authService: AuthService
+    private authService: AuthService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
     this.setMinDate();
     this.setCurrentUser();
     this.setDefaultDates();
+    this.loadDemandesUser();
   }
 
   setMinDate(): void {
@@ -63,8 +69,13 @@ export class DemandeCongeComponent implements OnInit {
         if (this.currentUser) {
           this.newDemande.user = this.currentUser;
           this.demandeCongeService.saveDemandeConge(this.newDemande).subscribe(() => {
-            this.newDemande = new DemandeConge();
-            console.log('Demande de congé ajoutée avec succès');
+            this.loadDemandesUser();
+             this.successMessage ='Demand added successfully';
+             this.newDemande = new DemandeConge();
+             setTimeout(() => {
+                this.successMessage = '';
+            //   this.router.navigate(['/user-conge-list']);
+             }, 2000);
           });
         }
       },
@@ -74,5 +85,31 @@ export class DemandeCongeComponent implements OnInit {
         console.log('Processed errors:', this.errors);
       }
     );
+  }
+
+  loadDemandesUser(): void {
+    this.demandeCongeService.getDemandeCongeByUserId(this.authService.getCurrentUserFromToken().id).subscribe((data ) => {
+      this.demandes = data.map((demande: DemandeConge) => {
+        if (demande.user) {
+          demande.user.photo = `http://localhost:9090/rh/uploads/${demande.user.photo}`;
+        }
+        return demande;
+      });
+    }, error => {
+      console.error('Error fetching demandes conge:', error);
+    });
+  }
+
+  getStatusClass(status: string): string {
+    switch (status) {
+      case 'APPROVED':
+        return 'text-success';
+      case 'REJECTED':
+        return 'text-danger';
+      case 'PENDING':
+        return 'text-primary';
+      default:
+        return '';
+    }
   }
 }

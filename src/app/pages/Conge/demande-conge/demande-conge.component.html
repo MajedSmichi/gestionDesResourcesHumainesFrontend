@@ -24,6 +24,38 @@
       <input type="text" id="type" name="type" class="form-control" [(ngModel)]="newDemande.type" required (focus)="clearError('type')">
       <div *ngIf="errors.type" class="text-danger">{{ errors.type }}</div>
     </div>
+    <div *ngIf="successMessage" class="alert alert-success">{{ successMessage }}</div>
     <button type="submit" class="btn btn-primary">Soumettre</button>
   </form>
+  <hr>
+  <h2>My Demand Conge List</h2>
+  <div class="container-fluid p-0">
+    <div class="row g-3">
+      <div *ngIf="demandes.length === 0" class="col-12">
+        <p class="text-center">No demands available.</p>
+      </div>
+      <div class="col-12 col-md-6 col-lg-4" *ngFor="let demande of demandes">
+        <div class="card shadow-sm border-0 rounded-lg h-100">
+          <div class="card-body d-flex flex-column align-items-start">
+            <div class="d-flex w-100 align-items-center">
+              <div class="flex-shrink-0">
+                <img class="rounded-circle" [src]="demande.user.photo || 'assets/placeholder.png'" alt="{{ demande.user.nom }}" style="width: 100px; height: 100px; object-fit: cover;">
+              </div>
+              <div class="flex-grow-1 ms-3">
+                <h5 class="card-title mb-0">{{ demande.user.nom }} {{ demande.user.prenom }}</h5>
+              </div>
+            </div>
+            <div class="mt-3">
+              <p class="card-text"><strong>Date Début:</strong> {{ demande.dateDebut | date }}</p>
+              <p class="card-text"><strong>Date Fin:</strong> {{ demande.dateFin | date }}</p>
+              <p class="card-text"><strong>Raison:</strong> {{ demande.raison }}</p>
+              <p class="card-text"><strong>Solde De Conge:</strong> {{ demande.user.soldeConges }}</p>
+              <p class="card-text"><strong>Type:</strong> {{ demande.type }}</p>
+              <p class="card-text"><strong>Status:</strong> <span [ngClass]="getStatusClass(demande.status)">{{ demande.status }}</span></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </main>

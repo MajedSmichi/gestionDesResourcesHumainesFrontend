@@ -15,4 +15,6 @@ export class User {
   roles!: Role[];
   postes!: Poste[];
   fonctions!: Fonction[];
+  dateCreation!: Date | string;
+  dateUpdate!: Date | string;
 }

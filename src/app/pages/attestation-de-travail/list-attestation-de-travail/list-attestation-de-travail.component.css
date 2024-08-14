@@ -1,0 +1,132 @@
+.card {
+  margin-bottom: 20px;
+}
+
+.card-body {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.card-title {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.card-text {
+  font-size: 1rem;
+  margin-bottom: 10px;
+  color: #555;
+}
+
+.card-text strong {
+  color: #000;
+}
+
+.btn-md {
+  margin-right: 5px;
+}
+
+.shadow-sm {
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075) !important;
+}
+
+.border-0 {
+  border: none !important;
+}
+
+.rounded-lg {
+  border-radius: 0.5rem !important;
+}
+
+.btn-md {
+  width: 100%;
+  margin: 0 0.5rem 0 0; /* Add spacing between buttons */
+}
+
+.btn-md:last-child {
+  margin-right: 0;
+}
+
+.d-flex .btn-md {
+  flex-grow: 1; /* Make buttons take equal space */
+}
+
+/* Add margin-bottom to cards in vertical view */
+@media (max-width: 767.98px) {
+  .card {
+    margin-bottom: 20px !important;
+  }
+}
+
+body {
+  font-family: Arial, sans-serif;
+  line-height: 1.6;
+  margin: 0;
+  padding: 20px;
+}
+
+.container {
+  max-width: 800px;
+  margin: auto;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100vh; /* Full height to center content vertically */
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.header h1 {
+  margin: 0;
+  font-size: 24px;
+  text-transform: uppercase;
+}
+
+.header h2 {
+  margin: 0;
+  font-size: 20px;
+  color: #333;
+}
+
+.content {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  font-size: 1.2rem; /* Increase font size */
+}
+
+.content p {
+  margin: 10px 0;
+}
+
+.signature {
+  display: flex;
+  justify-content: space-between;
+}
+
+.signature div {
+  width: 45%;
+}
+
+.signature div p {
+  margin: 0;
+}
+
+.signature .date {
+  text-align: left;
+}
+
+.signature .sign {
+  text-align: right;
+}

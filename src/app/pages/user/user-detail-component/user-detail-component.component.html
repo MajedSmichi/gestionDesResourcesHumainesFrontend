@@ -63,6 +63,16 @@
                   <div *ngIf="errors.soldeDeConge" class="text-danger">{{ errors.soldeDeConge }}</div>
                 </div>
               </div>
+              <div class="row">
+                <div class="col-12 col-md-6 mb-3">
+                  <label for="dateCreation" class="form-label">Date de Création</label>
+                  <input type="text" class="form-control" id="dateCreation" name="dateCreation" [value]="user.dateCreation ? formatDate(user.dateCreation) : ''" disabled>
+                </div>
+                <div class="col-12 col-md-6 mb-3">
+                  <label for="dateUpdate" class="form-label">Date de Mise à Jour</label>
+                  <input type="text" class="form-control" id="dateUpdate" name="dateUpdate" [value]="user.dateUpdate ? formatDate(user.dateUpdate) : ''" disabled>
+                </div>
+              </div>
             </form>
             <div class="button-group mt-3 d-flex justify-content-between">
               <button (click)="toggleEditMode(form)" class="btn btn-primary">{{ editButtonText }}</button>

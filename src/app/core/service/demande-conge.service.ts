@@ -54,6 +54,9 @@ export class DemandeCongeService {
     );
   }
 
+  getDemandeCongeByUserId(id: number | undefined): Observable<DemandeConge[]> {
+    return this.http.get<DemandeConge[]>(`${this.apiUrl}/user/${id}`);
+  }
 
 
 

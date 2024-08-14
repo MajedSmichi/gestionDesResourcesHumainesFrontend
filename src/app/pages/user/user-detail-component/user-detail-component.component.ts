@@ -27,6 +27,8 @@ export class UserDetailComponent implements OnInit {
   selectedRole: string = '';
   selectedFonction: string = '';
   errors: any = {};
+  formattedDateCreation: string = '';
+  formattedDateUpdate: string = '';
 
   constructor(private route: ActivatedRoute, private userService: UserService, private router: Router) { }
 
@@ -44,6 +46,7 @@ export class UserDetailComponent implements OnInit {
         this.fetchPostes();
         this.fetchRoles();
         this.fetchFonctions();
+        this.updateFormattedDates();
       });
     }
   }
@@ -59,10 +62,16 @@ export class UserDetailComponent implements OnInit {
           this.user!.postes[0].posteType = this.selectedPoste;
           this.user!.roles[0].roleType = this.selectedRole;
           this.user!.fonctions[0].fonctionType = this.selectedFonction;
+
+          // Update the dateUpdate field
+          this.user!.dateUpdate = new Date().toISOString();
+
           this.userService.updateUserById(this.user!.id, this.user!).subscribe(
             () => {
               this.isEditMode = false;
               this.editButtonText = 'Edit';
+              // Update formatted dates after save
+              this.updateFormattedDates();
             },
             error => {
               console.error('Error updating user:', error);
@@ -82,7 +91,6 @@ export class UserDetailComponent implements OnInit {
       this.fetchFonctions();
     }
   }
-
   fetchPostes(): void {
     this.userService.getPostes().subscribe(data => {
       this.postes = data;
@@ -113,5 +121,26 @@ export class UserDetailComponent implements OnInit {
 
   returnToUserList(): void {
     this.router.navigate(['/user-list']);
+  }
+
+  formatDate(timestamp: Date | string): string {
+    const date = new Date(timestamp);
+    const options: Intl.DateTimeFormatOptions = {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
+      hour12: false
+    };
+    return date.toLocaleString('fr-FR', options);
+  }
+
+  updateFormattedDates(): void {
+    if (this.user) {
+      this.formattedDateCreation = this.formatDate(this.user.dateCreation);
+      this.formattedDateUpdate = this.formatDate(this.user.dateUpdate);
+    }
   }
 }

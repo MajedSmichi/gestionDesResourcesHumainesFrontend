@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import {FormsModule, NgForm} from '@angular/forms';
+import { FormsModule, NgForm } from '@angular/forms';
 import { UserService } from '../../../core/service/user.service';
-import {NgForOf, NgIf} from "@angular/common";
-import {Router} from "@angular/router";
+import { NgForOf, NgIf } from "@angular/common";
+import { Router } from "@angular/router";
+import { User } from '../../../core/model/user.model';
 
 @Component({
   selector: 'app-add-employe',
@@ -16,6 +17,7 @@ import {Router} from "@angular/router";
   styleUrls: ['./add-user.component.css']
 })
 export class AddUserComponent implements OnInit {
+  user: User | undefined;
   postes: string[] = [];
   roles: string[] = [];
   fonctions: string[] = [];
@@ -27,7 +29,7 @@ export class AddUserComponent implements OnInit {
   errors: any = {};
   successMessage: string = '';
 
-  constructor(private userService: UserService,private router: Router) {}
+  constructor(private userService: UserService, private router: Router) {}
 
   ngOnInit(): void {
     this.fetchPostes();
@@ -75,11 +77,15 @@ export class AddUserComponent implements OnInit {
   onSubmit(form: NgForm): void {
     this.errors = {}; // Réinitialiser les erreurs
 
-    const user = {
+    const currentDate = new Date().toISOString();
+
+    const user: User = {
       ...form.value,
       roles: [this.selectedRole],
       postes: [this.selectedPoste],
-      fonctions: [this.selectedFonction]
+      fonctions: [this.selectedFonction],
+      dateCreation: currentDate,
+      dateUpdate: currentDate
     };
 
     this.userService.validateUser(user).subscribe(
@@ -92,8 +98,7 @@ export class AddUserComponent implements OnInit {
         }
 
         this.userService.createUser(formData).subscribe(response => {
-          console.log('User created successfully', response);
-          this.successMessage ='User added successfully';
+          this.successMessage = 'User added successfully';
           form.resetForm();
           setTimeout(() => {
             this.router.navigate(['/user-list']);
@@ -103,6 +108,7 @@ export class AddUserComponent implements OnInit {
         });
       },
       error => {
+        console.log('Error creating user', this.errors);
         this.errors = error.error;
       }
     );
