@@ -7,12 +7,26 @@
       <div class="card-body">
         <h5 class="card-title">{{ hoveredEvent.title }}</h5>
         <div class="flex-shrink-0">
-          <img class="rounded-circle" [src]="hoveredEvent.photo" alt="{{ hoveredEvent.nom }}" style="width: 100px; height: 100px; object-fit: cover;">
+          <img class="rounded-circle" [src]="hoveredEvent.photo" alt="{{ hoveredEvent.nom }}" style="width: 80px; height: 80px; object-fit: cover;">
         </div>
+        <br>
         <p class="card-text"><strong>Raison :</strong> {{ hoveredEvent.raison }}</p>
         <p class="card-text"><strong>Type :</strong> {{ hoveredEvent.type }}</p>
         <p class="card-text"><strong>Début :</strong> {{ hoveredEvent.start }}</p>
         <p class="card-text"><strong>Fin :</strong> {{ hoveredEvent.end }}</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="chart-container">
+    <div class="card">
+      <div class="card-header">
+        <h5 class="card-title">Répartition des utilisateurs par poste</h5>
+      </div>
+      <div class="card-body">
+        <div class="chart chart-sm">
+          <canvas id="chartjs-pie"></canvas>
+        </div>
       </div>
     </div>
   </div>

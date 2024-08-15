@@ -2,12 +2,11 @@ html, body {
   margin: 0;
   padding: 0;
   font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
-  font-size: 14px;
+  font-size: 20px;
 }
 
 #calendar {
-  max-width: 1100px;
-  margin: 40px auto;
+  max-width: 800px;
 }
 
 .tooltip {
@@ -23,7 +22,19 @@ html, body {
 }
 
 .content {
-  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px; /* Add some space between the calendar and the chart */
+}
+
+#calendar {
+  flex: 1;
+  max-width: 50%; /* Adjust the width as needed */
+}
+
+.chart-container {
+  flex: 1;
+  max-width: 50%; /* Adjust the width as needed */
 }
 
 .event-card {
