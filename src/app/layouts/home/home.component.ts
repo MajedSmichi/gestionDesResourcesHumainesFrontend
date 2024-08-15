@@ -10,6 +10,7 @@ import { DemandeConge } from '../../core/model/demande-conge.model';
 import { User } from '../../core/model/user.model';
 import { NgIf, NgStyle } from '@angular/common';
 import Chart from 'chart.js/auto';
+import moment from 'moment';
 
 @Component({
   selector: 'app-home',
@@ -30,6 +31,7 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {
     this.initializeCalendar();
     this.initializePieChart();
+    this.initializeBarChart();
   }
 
   private initializeCalendar(): void {
@@ -120,6 +122,61 @@ export class HomeComponent implements OnInit {
           },
           options: {
             maintainAspectRatio: false
+          }
+        });
+      }
+    });
+  }
+  private initializeBarChart(): void {
+    this.userService.getAllUser().subscribe((users: User[]) => {
+      // Initialiser les mois de l'année avec des valeurs par défaut à 0
+      const monthlyUserCounts = Array.from({ length: 12 }, (_, i) => ({
+        month: moment().month(i).format('MMMM'),
+        count: 0
+      }));
+
+      // Remplir avec les données des utilisateurs
+      users.forEach(user => {
+        const monthIndex = moment(user.dateCreation).month(); // Obtenir l'index du mois (0 pour janvier, 11 pour décembre)
+        monthlyUserCounts[monthIndex].count += 1;
+      });
+
+      const labels = monthlyUserCounts.map(item => item.month);
+      const data = monthlyUserCounts.map(item => item.count);
+
+      const barChartElement = document.getElementById("chartjs-bar");
+      if (barChartElement) {
+        new Chart(barChartElement as HTMLCanvasElement, {
+          type: "bar",
+          data: {
+            labels: labels,
+            datasets: [{
+              label: 'Nombre de créations de comptes',
+              data: data,
+              backgroundColor: "#007bff",
+              borderColor: "#007bff",
+              borderWidth: 1
+            }]
+          },
+          options: {
+            scales: {
+              y: {
+                beginAtZero: true,
+                title: {
+                  display: true,
+                  text: 'Nombre de créations'
+                },
+                ticks: {
+                  stepSize: 1, // Afficher uniquement les valeurs entières
+                }
+              },
+              x: {
+                title: {
+                  display: true,
+                  text: 'Mois de création'
+                }
+              }
+            }
           }
         });
       }

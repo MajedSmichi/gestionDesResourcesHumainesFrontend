@@ -34,8 +34,10 @@ html, body {
 
 .chart-container {
   flex: 1;
-  max-width: 50%; /* Adjust the width as needed */
+  width: 50%;
 }
+
+
 
 .event-card {
   position: absolute;
