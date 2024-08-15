@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
-import {HttpClient, HttpErrorResponse, HttpHeaders} from '@angular/common/http';
-import {catchError, Observable, throwError} from 'rxjs';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
+import { catchError, Observable, throwError } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { DemandeConge } from '../model/demande-conge.model';
 import { DemandeCongeStatus } from '../model/demande-conge-status.enum';
 
@@ -20,12 +21,15 @@ export class DemandeCongeService {
     return this.http.get<DemandeConge[]>(`${this.apiUrl}/all`);
   }
 
+  getApprovedDemandesConge(): Observable<DemandeConge[]> {
+    return this.getDemandesConge().pipe(
+      map(demandes => demandes.filter(demande => demande.status === DemandeCongeStatus.APPROVED))
+    );
+  }
+
   refuseDemandeConge(id: number | undefined, status: DemandeCongeStatus): Observable<DemandeConge> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-
-    // Créez un objet avec le statut
     const body = { status };
-
     return this.http.put<DemandeConge>(`${this.apiUrl}/refuseDemandeConge/${id}`, body, { headers }).pipe(
       catchError((error: HttpErrorResponse) => {
         console.error('Error updating demande conge status:', error);
@@ -33,7 +37,6 @@ export class DemandeCongeService {
       })
     );
   }
-
 
   acceptDemandeConge(id: number | undefined, status: DemandeCongeStatus): Observable<DemandeConge> {
     const body = { status };
@@ -57,8 +60,4 @@ export class DemandeCongeService {
   getDemandeCongeByUserId(id: number | undefined): Observable<DemandeConge[]> {
     return this.http.get<DemandeConge[]>(`${this.apiUrl}/user/${id}`);
   }
-
-
-
-
 }

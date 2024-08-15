@@ -1,1 +1,19 @@
-<p>home works!</p>
+<main class="content">
+  <div id="calendar"></div>
+
+  <!-- Carte pour afficher les détails de l'événement survolé -->
+  <div *ngIf="hoveredEvent" class="event-card" [ngStyle]="{'top.px': hoveredEvent.position.top, 'left.px': hoveredEvent.position.left}">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">{{ hoveredEvent.title }}</h5>
+        <div class="flex-shrink-0">
+          <img class="rounded-circle" [src]="hoveredEvent.photo" alt="{{ hoveredEvent.nom }}" style="width: 100px; height: 100px; object-fit: cover;">
+        </div>
+        <p class="card-text"><strong>Raison :</strong> {{ hoveredEvent.raison }}</p>
+        <p class="card-text"><strong>Type :</strong> {{ hoveredEvent.type }}</p>
+        <p class="card-text"><strong>Début :</strong> {{ hoveredEvent.start }}</p>
+        <p class="card-text"><strong>Fin :</strong> {{ hoveredEvent.end }}</p>
+      </div>
+    </div>
+  </div>
+</main>

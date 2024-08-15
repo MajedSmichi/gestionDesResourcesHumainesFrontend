@@ -36,10 +36,10 @@ export class LoginComponent {
           } else {
             console.log("Login successful", response.body);
           }
-          this.router.navigate(['/dashboard']);
+          this.router.navigate(['/home']);
         } catch (e) {
           console.log("Login successful", response.body);
-          this.router.navigate(['/dashboard']);
+          this.router.navigate(['/home']);
         }
       },
       error: (error: HttpErrorResponse) => {
