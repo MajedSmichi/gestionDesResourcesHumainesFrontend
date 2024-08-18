@@ -6,6 +6,9 @@ import { DemandeCongeService } from '../../../core/service/demande-conge.service
 import { AuthService } from '../../../core/service/auth.service';
 import { User } from '../../../core/model/user.model';
 import { Router } from '@angular/router';
+import { NotificationService } from '../../../core/service/notification.service';
+import { Notification } from '../../../core/model/notification.model';
+import {EtatNotification} from "../../../core/model/etatNotification.model";
 
 @Component({
   selector: 'app-demande-conge',
@@ -25,7 +28,8 @@ export class DemandeCongeComponent implements OnInit {
   constructor(
     private demandeCongeService: DemandeCongeService,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private notificationService: NotificationService
   ) {}
 
   ngOnInit(): void {
@@ -71,10 +75,10 @@ export class DemandeCongeComponent implements OnInit {
             this.loadDemandesUser();
             this.successMessage = 'Demand added successfully';
             this.newDemande = new DemandeConge();
+            this.createNotification();
             setTimeout(() => {
               this.successMessage = '';
-              // this.router.navigate(['/user-conge-list']);
-            }, 2000);
+            }, 3000);
           });
         }
       },
@@ -88,18 +92,53 @@ export class DemandeCongeComponent implements OnInit {
 
   private formatDemande(demande: DemandeConge): DemandeConge {
     if (demande.user && demande.user.roles) {
-      demande.user.roles = demande.user.roles.map(role => ({
+      demande.user.roles = demande.user.roles.map((role: any) => ({
         ...role,
         roleType: role.roleType.toString() // Ensure roleType is a string
       }));
     }
     if (demande.user && demande.user.fonctions) {
-      demande.user.fonctions = demande.user.fonctions.map(fonction => ({
+      demande.user.fonctions = demande.user.fonctions.map((fonction: any) => ({
         ...fonction,
         fonctionType: fonction.fonctionType.toString() // Ensure fonctionType is a string
       }));
     }
     return demande;
+  }
+
+  private formatNotification(titre: string, message: string, user: User): Notification {
+    const notification: Notification = {
+      id: 0, // Placeholder, will be set by the backend
+      titre,
+      message,
+      dateHeure: new Date(),
+      etat: EtatNotification.EN_ATTENTE, // Default state
+      user
+    };
+
+    if (notification.user.roles) {
+      notification.user.roles = notification.user.roles.map((role: any) => ({
+        ...role,
+        roleType: role.roleType.toString() // Ensure roleType is a string
+      }));
+    }
+    if (notification.user.fonctions) {
+      notification.user.fonctions = notification.user.fonctions.map((fonction: any) => ({
+        ...fonction,
+        fonctionType: fonction.fonctionType.toString() // Ensure fonctionType is a string
+      }));
+    }
+    return notification;
+  }
+
+  private createNotification(): void {
+    if (this.currentUser) {
+      const titre = 'Leave Request';
+      const message = `Leave request has been submitted successfully by ${this.currentUser.nom} ${this.currentUser.prenom}.`;
+
+      const notification = this.formatNotification(titre, message, this.currentUser);
+      this.notificationService.createNotification(notification.titre, notification.message, notification.user.id).subscribe();
+    }
   }
 
   loadDemandesUser(): void {

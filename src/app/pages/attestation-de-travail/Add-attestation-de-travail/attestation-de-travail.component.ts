@@ -6,6 +6,9 @@ import { DatePipe, NgClass, NgForOf, NgIf } from '@angular/common';
 import { AttestationDeTravailService } from '../../../core/service/attestationDeTravail.service';
 import { User } from '../../../core/model/user.model';
 import { AuthService } from '../../../core/service/auth.service';
+import {Notification} from "../../../core/model/notification.model";
+import {EtatNotification} from "../../../core/model/etatNotification.model";
+import {NotificationService} from "../../../core/service/notification.service";
 
 @Component({
   selector: 'app-attestation-de-travail',
@@ -34,7 +37,7 @@ export class AttestationDeTravailFormComponent implements OnInit {
     this.loadUserAttestationDeTravail();
   }
 
-  constructor(private attestationDeTravailService: AttestationDeTravailService, private authService: AuthService) {}
+  constructor(private attestationDeTravailService: AttestationDeTravailService, private authService: AuthService,private notificationService: NotificationService) {}
 
   setMinDate(): void {
     const today = new Date();
@@ -68,6 +71,7 @@ export class AttestationDeTravailFormComponent implements OnInit {
     this.attestationDeTravailService.saveAttestationDeTravail(this.formatAttestation(this.attestation)).subscribe(() => {
       this.attestation = new AttestationDeTravail();
       this.loadUserAttestationDeTravail();
+      this.createNotification();
     });
   }
 
@@ -99,6 +103,41 @@ export class AttestationDeTravailFormComponent implements OnInit {
       return `${year}-${month}-${day}`;
     }
     return dateString.toString();
+  }
+
+  private formatNotification(titre: string, message: string, user: User): Notification {
+    const notification: Notification = {
+      id: 0, // Placeholder, will be set by the backend
+      titre,
+      message,
+      dateHeure: new Date(),
+      etat: EtatNotification.EN_ATTENTE, // Default state
+      user
+    };
+
+    if (notification.user.roles) {
+      notification.user.roles = notification.user.roles.map((role: any) => ({
+        ...role,
+        roleType: role.roleType.toString() // Ensure roleType is a string
+      }));
+    }
+    if (notification.user.fonctions) {
+      notification.user.fonctions = notification.user.fonctions.map((fonction: any) => ({
+        ...fonction,
+        fonctionType: fonction.fonctionType.toString() // Ensure fonctionType is a string
+      }));
+    }
+    return notification;
+  }
+
+  private createNotification(): void {
+    if (this.currentUser) {
+      const titre = 'Request Work Certificate';
+      const message = `Request Work Certificate has been added  by ${this.currentUser.nom} ${this.currentUser.prenom}.`;
+
+      const notification = this.formatNotification(titre, message, this.currentUser);
+      this.notificationService.createNotification(notification.titre, notification.message, notification.user.id).subscribe();
+    }
   }
 
   getStatusClass(status: string): string {
