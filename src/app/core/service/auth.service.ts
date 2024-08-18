@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { User } from '../model/user.model';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { HttpClient } from '@angular/common/http';
+import {Observable} from "rxjs";
 
 @Injectable({
   providedIn: 'root'
@@ -86,7 +87,17 @@ export class AuthService {
       photo: decodedToken.photo,
       telephone: decodedToken.telephone,
       soldeConges: decodedToken.soldeConges,
-      active: decodedToken.active
+      active: decodedToken.active,
+      postes: [{ posteType: decodedToken.poste }],
+      roles: [{ roleType: decodedToken.roles }],
+      fonctions: [{ fonctionType: decodedToken.fonctions }],
     } as User;
   }
+
+  updatePassword(userId: number, currentPassword: string, newPassword: string): Observable<any> {
+    const payload = { currentPassword, newPassword };
+    return this.http.put(`${this.apiURL}/updatePassword/${userId}`, payload, { responseType: 'text' });
+  }
+
+
 }

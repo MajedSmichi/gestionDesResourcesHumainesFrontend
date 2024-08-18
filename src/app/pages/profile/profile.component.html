@@ -1,11 +1,7 @@
 <main class="content">
   <div class="container-fluid p-0">
-
     <div class="mb-3">
       <h1 class="h3 d-inline align-middle">Profile</h1>
-      <a class="badge bg-dark text-white ms-2" href="upgrade-to-pro.html">
-        Get more page examples
-      </a>
     </div>
     <div class="row">
       <div class="col-md-4 col-xl-3">
@@ -14,16 +10,17 @@
             <h5 class="card-title mb-0">Profile Details</h5>
           </div>
           <div class="card-body text-center">
-            <img src="img/avatars/avatar-4.jpg" alt="Christina Mason" class="img-fluid rounded-circle mb-2" width="128" height="128" />
-            <h5 class="card-title mb-0">Christina Mason</h5>
-            <div class="text-muted mb-2">Lead Developer</div>
-
+            <img [src]="user?.photo" class="avatar img-fluid rounded-circle me-1"
+                 alt="{{ user?.nom || '' }} {{ user?.prenom || '' }}"
+                 style="width: 100px; height: 100px; object-fit: cover;">
+            <h5 class="card-title mb-0">{{ user?.nom || '' }} {{ user?.prenom || '' }}</h5>
+            <div class="text-muted mb-2">{{ user?.postes?.[0]?.posteType }}</div>
             <div>
               <a class="btn btn-primary btn-sm" href="#">Follow</a>
               <a class="btn btn-primary btn-sm" href="#"><span data-feather="message-square"></span> Message</a>
             </div>
           </div>
-          <hr class="my-0" />
+          <hr class="my-0"/>
           <div class="card-body">
             <h5 class="h6 card-title">Skills</h5>
             <a href="#" class="badge bg-primary me-1 my-1">HTML</a>
@@ -36,17 +33,19 @@
             <a href="#" class="badge bg-primary me-1 my-1">UI</a>
             <a href="#" class="badge bg-primary me-1 my-1">UX</a>
           </div>
-          <hr class="my-0" />
+          <hr class="my-0"/>
           <div class="card-body">
             <h5 class="h6 card-title">About</h5>
             <ul class="list-unstyled mb-0">
-              <li class="mb-1"><span data-feather="home" class="feather-sm me-1"></span> Lives in <a href="#">San Francisco, SA</a></li>
-
-              <li class="mb-1"><span data-feather="briefcase" class="feather-sm me-1"></span> Works at <a href="#">GitHub</a></li>
-              <li class="mb-1"><span data-feather="map-pin" class="feather-sm me-1"></span> From <a href="#">Boston</a></li>
+              <li class="mb-1"><span data-feather="home" class="feather-sm me-1"></span> Lives in <a href="#">San
+                Francisco, SA</a></li>
+              <li class="mb-1"><span data-feather="briefcase" class="feather-sm me-1"></span> Works at <a href="#">GitHub</a>
+              </li>
+              <li class="mb-1"><span data-feather="map-pin" class="feather-sm me-1"></span> From <a href="#">Boston</a>
+              </li>
             </ul>
           </div>
-          <hr class="my-0" />
+          <hr class="my-0"/>
           <div class="card-body">
             <h5 class="h6 card-title">Elsewhere</h5>
             <ul class="list-unstyled mb-0">
@@ -63,119 +62,133 @@
       <div class="col-md-8 col-xl-9">
         <div class="card">
           <div class="card-header">
-
-            <h5 class="card-title mb-0">Activities</h5>
+            <h5 class="card-title mb-0">Update Profile</h5>
           </div>
           <div class="card-body h-100">
-
-            <div class="d-flex align-items-start">
-              <img src="img/avatars/avatar-5.jpg" width="36" height="36" class="rounded-circle me-2" alt="Vanessa Tucker">
-              <div class="flex-grow-1">
-                <small class="float-end text-navy">5m ago</small>
-                <strong>Vanessa Tucker</strong> started following <strong>Christina Mason</strong><br />
-                <small class="text-muted">Today 7:51 pm</small><br />
-
-              </div>
-            </div>
-
-            <hr />
-            <div class="d-flex align-items-start">
-              <img src="img/avatars/avatar.jpg" width="36" height="36" class="rounded-circle me-2" alt="Charles Hall">
-              <div class="flex-grow-1">
-                <small class="float-end text-navy">30m ago</small>
-                <strong>Charles Hall</strong> posted something on <strong>Christina Mason</strong>'s timeline<br />
-                <small class="text-muted">Today 7:21 pm</small>
-
-                <div class="border text-sm text-muted p-2 mt-1">
-                  Etiam rhoncus. Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero, sit amet adipiscing sem neque sed ipsum. Nam quam nunc, blandit vel, luctus
-                  pulvinar, hendrerit id, lorem. Maecenas nec odio et ante tincidunt tempus. Donec vitae sapien ut libero venenatis faucibus. Nullam quis ante.
+            <form #form="ngForm">
+              <div class="row">
+                <div class="col-12 col-md-6 mb-3">
+                  <label for="nom" class="form-label">Nom</label>
+                  <input type="text" class="form-control" id="nom" name="nom" [(ngModel)]="tempUser.nom"
+                         [disabled]="!isEditMode" required (ngModelChange)="clearError('nom')">
+                  <div *ngIf="errors.nom" class="text-danger">{{ errors.nom }}</div>
                 </div>
-
-                <a href="#" class="btn btn-sm btn-danger mt-1"><i class="feather-sm" data-feather="heart"></i> Like</a>
-              </div>
-            </div>
-
-            <hr />
-            <div class="d-flex align-items-start">
-              <img src="img/avatars/avatar-4.jpg" width="36" height="36" class="rounded-circle me-2" alt="Christina Mason">
-              <div class="flex-grow-1">
-                <small class="float-end text-navy">1h ago</small>
-                <strong>Christina Mason</strong> posted a new blog<br />
-
-                <small class="text-muted">Today 6:35 pm</small>
-              </div>
-            </div>
-
-            <hr />
-            <div class="d-flex align-items-start">
-              <img src="img/avatars/avatar-2.jpg" width="36" height="36" class="rounded-circle me-2" alt="William Harris">
-              <div class="flex-grow-1">
-                <small class="float-end text-navy">3h ago</small>
-                <strong>William Harris</strong> posted two photos on <strong>Christina Mason</strong>'s timeline<br />
-                <small class="text-muted">Today 5:12 pm</small>
-
-                <div class="row g-0 mt-1">
-                  <div class="col-6 col-md-4 col-lg-4 col-xl-3">
-                    <img src="img/photos/unsplash-1.jpg" class="img-fluid pe-2" alt="Unsplash">
-                  </div>
-                  <div class="col-6 col-md-4 col-lg-4 col-xl-3">
-                    <img src="img/photos/unsplash-2.jpg" class="img-fluid pe-2" alt="Unsplash">
-                  </div>
+                <div class="col-12 col-md-6 mb-3">
+                  <label for="prenom" class="form-label">Prenom</label>
+                  <input type="text" class="form-control" id="prenom" name="prenom" [(ngModel)]="tempUser.prenom"
+                         [disabled]="!isEditMode" required (ngModelChange)="clearError('prenom')">
+                  <div *ngIf="errors.prenom" class="text-danger">{{ errors.prenom }}</div>
                 </div>
-
-                <a href="#" class="btn btn-sm btn-danger mt-1"><i class="feather-sm" data-feather="heart"></i> Like</a>
               </div>
+              <div class="row">
+                <div class="col-12 col-md-6 mb-3">
+                  <label for="email" class="form-label">Email</label>
+                  <input type="email" class="form-control" id="email" name="email" [(ngModel)]="tempUser.email"
+                         [disabled]="!isEditMode" required (ngModelChange)="clearError('email')">
+                  <div *ngIf="errors.email" class="text-danger">{{ errors.email }}</div>
+                </div>
+                <div class="col-12 col-md-6 mb-3">
+                  <label for="telephone" class="form-label">Telephone</label>
+                  <input type="tel" class="form-control" id="telephone" name="telephone"
+                         [(ngModel)]="tempUser.telephone" [disabled]="!isEditMode" required
+                         (ngModelChange)="clearError('telephone')">
+                  <div *ngIf="errors.telephone" class="text-danger">{{ errors.telephone }}</div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-12 col-md-6 mb-3">
+                  <label for="poste" class="form-label">Poste</label>
+                  <select class="form-control" id="poste" name="poste" [(ngModel)]="selectedPoste" required
+                          (ngModelChange)="clearError('poste')" disabled>
+                    <option *ngFor="let poste of postes" [value]="poste">{{ poste }}</option>
+                  </select>
+                  <div *ngIf="errors.poste" class="text-danger">{{ errors.poste }}</div>
+                </div>
+                <div class="col-12 col-md-6 mb-3">
+                  <label for="role" class="form-label">Roles</label>
+                  <select class="form-control" id="role" name="role" [(ngModel)]="selectedRole" required
+                          (ngModelChange)="clearError('role')" disabled>
+                    <option *ngFor="let role of roles" [value]="role">{{ role }}</option>
+                  </select>
+                  <div *ngIf="errors.role" class="text-danger">{{ errors.role }}</div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-12 col-md-6 mb-3">
+                  <label for="fonction" class="form-label">Fonction</label>
+                  <select class="form-control" id="fonction" name="fonction" [(ngModel)]="selectedFonction" required
+                          (ngModelChange)="clearError('fonction')" disabled>
+                    <option *ngFor="let fonction of fonctions" [value]="fonction">{{ fonction }}</option>
+                  </select>
+                  <div *ngIf="errors.fonction" class="text-danger">{{ errors.fonction }}</div>
+                </div>
+                <div class="col-12 col-md-6 mb-3">
+                  <label for="soldeDeConge" class="form-label">Solde de Congé</label>
+                  <input type="number" class="form-control" id="soldeDeConge" name="soldeDeConge"
+                         [(ngModel)]="tempUser.soldeConges" required (ngModelChange)="clearError('soldeDeConge')"
+                         disabled>
+                  <div *ngIf="errors.soldeDeConge" class="text-danger">{{ errors.soldeDeConge }}</div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-12 col-md-6 mb-3">
+                  <label for="dateCreation" class="form-label">Date de Création</label>
+                  <input type="text" class="form-control" id="dateCreation" name="dateCreation"
+                         [value]="formatDate(user?.dateCreation)" disabled>
+                </div>
+                <div class="col-12 col-md-6 mb-3">
+                  <label for="dateUpdate" class="form-label">Date de Mise à Jour</label>
+                  <input type="text" class="form-control" id="dateUpdate" name="dateUpdate"
+                         [value]="formatDate(user?.dateUpdate)" disabled>
+                </div>
+              </div>
+            </form>
+            <div class="button-group mt-3 d-flex justify-content-center">
+              <button (click)="toggleEditMode(form)"
+                      class="btn btn-outline-primary btn-md btn-center w-50">{{ editButtonText }}
+              </button>
             </div>
-
-            <hr />
-            <div class="d-flex align-items-start">
-              <img src="img/avatars/avatar-2.jpg" width="36" height="36" class="rounded-circle me-2" alt="William Harris">
-              <div class="flex-grow-1">
-                <small class="float-end text-navy">1d ago</small>
-                <strong>William Harris</strong> started following <strong>Christina Mason</strong><br />
-                <small class="text-muted">Yesterday 3:12 pm</small>
-
-                <div class="d-flex align-items-start mt-1">
-                  <a class="pe-3" href="#">
-                    <img src="img/avatars/avatar-4.jpg" width="36" height="36" class="rounded-circle me-2" alt="Christina Mason">
-                  </a>
-                  <div class="flex-grow-1">
-                    <div class="border text-sm text-muted p-2 mt-1">
-                      Nam quam nunc, blandit vel, luctus pulvinar, hendrerit id, lorem. Maecenas nec odio et ante tincidunt tempus.
+            <hr class="my-4">
+            <div class="card mb-4">
+              <div class="card-header">
+                <h5 class="card-title mb-0">Update Password</h5>
+              </div>
+              <div class="card-body">
+                <!-- Formulaire de mise à jour du mot de passe -->
+                  <form #passwordForm="ngForm" (ngSubmit)="updatePassword(passwordForm)">
+                    <div class="mb-3">
+                      <label for="currentPassword" class="form-label">Current Password</label>
+                      <input type="password" class="form-control" id="currentPassword" name="currentPassword" [(ngModel)]="currentPassword" required
+                             (focus)="clearPasswordError('currentPassword')">
+                      <div *ngIf="passwordErrors.currentPassword" class="text-danger">{{ passwordErrors.currentPassword }}</div>
+                      <div *ngIf="passwordErrors1.currentPassword" class="text-danger">{{ passwordErrors1.currentPassword }}</div>
                     </div>
-                  </div>
-                </div>
+                    <div class="mb-3">
+                      <label for="newPassword" class="form-label">New Password</label>
+                      <input type="password" class="form-control" id="newPassword" name="newPassword" [(ngModel)]="newPassword" required
+                             (focus)="clearPasswordError('newPassword')">
+                      <div *ngIf="passwordErrors.newPassword" class="text-danger">{{ passwordErrors.newPassword }}</div>
+                    </div>
+                    <div class="mb-3">
+                      <label for="confirmPassword" class="form-label">New Password Confirm</label>
+                      <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" [(ngModel)]="confirmPassword" required
+                             (focus)="clearPasswordError('confirmPassword')">
+                      <div *ngIf="passwordErrors.confirmPassword" class="text-danger">{{ passwordErrors.confirmPassword }}</div>
+                      <div *ngIf="passwordErrors1.confirmPassword" class="text-danger">{{ passwordErrors1.confirmPassword }}</div>
+                    </div>
+                    <div *ngIf="successMessage" class="alert alert-success">{{ successMessage }}</div>
+                    <div class="button-group mt-3 d-flex justify-content-center">
+                    <button type="submit" class="btn btn-outline-primary btn-md btn-center w-50">Update your Pwd</button>
+                    </div>
+                  </form>
+
               </div>
+
             </div>
 
-            <hr />
-            <div class="d-flex align-items-start">
-              <img src="img/avatars/avatar-4.jpg" width="36" height="36" class="rounded-circle me-2" alt="Christina Mason">
-              <div class="flex-grow-1">
-                <small class="float-end text-navy">1d ago</small>
-                <strong>Christina Mason</strong> posted a new blog<br />
-                <small class="text-muted">Yesterday 2:43 pm</small>
-              </div>
-            </div>
-
-            <hr />
-            <div class="d-flex align-items-start">
-              <img src="img/avatars/avatar.jpg" width="36" height="36" class="rounded-circle me-2" alt="Charles Hall">
-              <div class="flex-grow-1">
-                <small class="float-end text-navy">1d ago</small>
-                <strong>Charles Hall</strong> started following <strong>Christina Mason</strong><br />
-                <small class="text-muted">Yesterdag 1:51 pm</small>
-              </div>
-            </div>
-
-            <hr />
-            <div class="d-grid">
-              <a href="#" class="btn btn-primary">Load more</a>
-            </div>
           </div>
         </div>
       </div>
     </div>
-
   </div>
 </main>
