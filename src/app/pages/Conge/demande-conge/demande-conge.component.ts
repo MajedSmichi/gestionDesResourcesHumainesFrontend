@@ -5,7 +5,7 @@ import { DemandeConge } from '../../../core/model/demande-conge.model';
 import { DemandeCongeService } from '../../../core/service/demande-conge.service';
 import { AuthService } from '../../../core/service/auth.service';
 import { User } from '../../../core/model/user.model';
-import {Router} from "@angular/router";
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-demande-conge',
@@ -21,7 +21,6 @@ export class DemandeCongeComponent implements OnInit {
   errors: any = {};
   successMessage: string = '';
   demandes: DemandeConge[] = [];
-
 
   constructor(
     private demandeCongeService: DemandeCongeService,
@@ -62,33 +61,49 @@ export class DemandeCongeComponent implements OnInit {
   }
 
   onSubmit(): void {
-    this.errors = {}; // Réinitialiser les erreurs avant de soumettre
+    this.errors = {}; // Reset errors before submitting
 
     this.demandeCongeService.validateDemandeConge(this.newDemande, this.currentUser?.id).subscribe(
       () => {
         if (this.currentUser) {
           this.newDemande.user = this.currentUser;
-          this.demandeCongeService.saveDemandeConge(this.newDemande).subscribe(() => {
+          this.demandeCongeService.saveDemandeConge(this.formatDemande(this.newDemande)).subscribe(() => {
             this.loadDemandesUser();
-             this.successMessage ='Demand added successfully';
-             this.newDemande = new DemandeConge();
-             setTimeout(() => {
-                this.successMessage = '';
-            //   this.router.navigate(['/user-conge-list']);
-             }, 2000);
+            this.successMessage = 'Demand added successfully';
+            this.newDemande = new DemandeConge();
+            setTimeout(() => {
+              this.successMessage = '';
+              // this.router.navigate(['/user-conge-list']);
+            }, 2000);
           });
         }
       },
       (error: any) => {
-        console.log('Received error response:', error); // Log la réponse d'erreur
+        console.log('Received error response:', error); // Log error response
         this.errors = error || {};
         console.log('Processed errors:', this.errors);
       }
     );
   }
 
+  private formatDemande(demande: DemandeConge): DemandeConge {
+    if (demande.user && demande.user.roles) {
+      demande.user.roles = demande.user.roles.map(role => ({
+        ...role,
+        roleType: role.roleType.toString() // Ensure roleType is a string
+      }));
+    }
+    if (demande.user && demande.user.fonctions) {
+      demande.user.fonctions = demande.user.fonctions.map(fonction => ({
+        ...fonction,
+        fonctionType: fonction.fonctionType.toString() // Ensure fonctionType is a string
+      }));
+    }
+    return demande;
+  }
+
   loadDemandesUser(): void {
-    this.demandeCongeService.getDemandeCongeByUserId(this.authService.getCurrentUserFromToken().id).subscribe((data ) => {
+    this.demandeCongeService.getDemandeCongeByUserId(this.authService.getCurrentUserFromToken().id).subscribe((data) => {
       this.demandes = data.map((demande: DemandeConge) => {
         if (demande.user) {
           demande.user.photo = `http://localhost:9090/rh/uploads/${demande.user.photo}`;

@@ -65,7 +65,7 @@ export class AttestationDeTravailFormComponent implements OnInit {
     }
     this.attestation.dateTraitement = null;
     this.attestation.statut = DemandeCongeStatus.PENDING;
-    this.attestationDeTravailService.saveAttestationDeTravail(this.attestation).subscribe(() => {
+    this.attestationDeTravailService.saveAttestationDeTravail(this.formatAttestation(this.attestation)).subscribe(() => {
       this.attestation = new AttestationDeTravail();
       this.loadUserAttestationDeTravail();
     });
@@ -112,5 +112,27 @@ export class AttestationDeTravailFormComponent implements OnInit {
       default:
         return '';
     }
+  }
+
+  private formatAttestation(attestation: AttestationDeTravail): AttestationDeTravail {
+    if (attestation.user && attestation.user.roles) {
+      attestation.user.roles = attestation.user.roles.map(role => ({
+        ...role,
+        roleType: role.roleType.toString() // Ensure roleType is a string
+      }));
+    }
+    if (attestation.user && attestation.user.fonctions) {
+      attestation.user.fonctions = attestation.user.fonctions.map(fonction => ({
+        ...fonction,
+        fonctionType: fonction.fonctionType.toString() // Ensure fonctionType is a string
+      }));
+    }
+    // if (attestation.user && attestation.user.postes) {
+    //   attestation.user.postes = attestation.user.postes.map(poste => ({
+    //     ...poste,
+    //     posteType: poste.posteType.toString() // Ensure posteType is a string
+    //   }));
+    // }
+    return attestation;
   }
 }

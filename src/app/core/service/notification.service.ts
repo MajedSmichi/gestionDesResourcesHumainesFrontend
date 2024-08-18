@@ -12,8 +12,8 @@ export class NotificationService {
 
   constructor(private http: HttpClient) { }
 
-  createNotification(titre: string, message: string): Observable<any> {
-    return this.http.post(`${this.baseUrl}/create`, { titre, message });
+  createNotification(titre: string, message: string, userId: number): Observable<any> {
+    return this.http.post(`${this.baseUrl}/create`, { titre, message, userId });
   }
 
   changeNotificationState(id: number, newEtat: EtatNotification): Observable<any> {
