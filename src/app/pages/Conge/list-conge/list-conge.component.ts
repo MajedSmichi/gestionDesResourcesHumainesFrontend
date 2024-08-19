@@ -54,6 +54,7 @@ export class ListCongeComponent implements OnInit {
       const notification = this.formatNotification('Leave Request', 'Your leave request is REJECTED', demande.user);
       this.createNotification(notification.titre, notification.message, notification.user.id);
       this.loadDemandes();
+
     });
   }
 
