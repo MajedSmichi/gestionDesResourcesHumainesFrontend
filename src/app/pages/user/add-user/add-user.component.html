@@ -83,6 +83,28 @@
                   <div *ngIf="errors.photo" class="text-danger">{{ errors.photo }}</div>
                 </div>
               </div>
+              <div class="row">
+                <div class="col-12 col-md-6 mb-3">
+                  <label for="salaireBase" class="form-label">Salaire Base</label>
+                  <input type="number" class="form-control" id="salaireBase" name="salaireBase" ngModel placeholder="Salaire Base" required>
+                  <div *ngIf="form.submitted && form.controls['salaireBase']?.errors?.['required']" class="text-danger">Salaire Base is required</div>
+                  <div *ngIf="errors.salaireBase" class="text-danger">{{ errors.salaireBase }}</div>
+                </div>
+                <div class="col-12 col-md-6 mb-3">
+                  <label for="prime" class="form-label">Prime</label>
+                  <input type="number" class="form-control" id="prime" name="prime" ngModel placeholder="Prime" required>
+                  <div *ngIf="form.submitted && form.controls['prime']?.errors?.['required']" class="text-danger">Prime is required</div>
+                  <div *ngIf="errors.prime" class="text-danger">{{ errors.prime }}</div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-12 col-md-6 mb-3">
+                  <label for="salaireNet" class="form-label">Salaire Net</label>
+                  <input type="number" class="form-control" id="salaireNet" name="salaireNet" ngModel placeholder="Salaire Net" required>
+                  <div *ngIf="form.submitted && form.controls['salaireNet']?.errors?.['required']" class="text-danger">Salaire Net is required</div>
+                  <div *ngIf="errors.salaireNet" class="text-danger">{{ errors.salaireNet }}</div>
+                </div>
+              </div>
               <div class="row mb-3" *ngIf="selectedFile">
                 <div class="col-12">
                   <div class="progress">

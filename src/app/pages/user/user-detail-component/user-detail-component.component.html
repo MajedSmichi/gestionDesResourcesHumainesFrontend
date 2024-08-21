@@ -65,6 +65,25 @@
               </div>
               <div class="row">
                 <div class="col-12 col-md-6 mb-3">
+                  <label for="salaireBase" class="form-label">Salaire Base</label>
+                  <input type="number" class="form-control" id="salaireBase" name="salaireBase" [(ngModel)]="user.salaireBase" [disabled]="!isEditMode" required (ngModelChange)="clearError('salaireBase')">
+                  <div *ngIf="errors.salaireBase" class="text-danger">{{ errors.salaireBase }}</div>
+                </div>
+                <div class="col-12 col-md-6 mb-3">
+                  <label for="prime" class="form-label">Prime</label>
+                  <input type="number" class="form-control" id="prime" name="prime" [(ngModel)]="user.prime" [disabled]="!isEditMode" required (ngModelChange)="clearError('prime')">
+                  <div *ngIf="errors.prime" class="text-danger">{{ errors.prime }}</div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-12 col-md-6 mb-3">
+                  <label for="salaireNet" class="form-label">Salaire Net</label>
+                  <input type="number" class="form-control" id="salaireNet" name="salaireNet" [(ngModel)]="user.salaireNet" [disabled]="!isEditMode" required (ngModelChange)="clearError('salaireNet')">
+                  <div *ngIf="errors.salaireNet" class="text-danger">{{ errors.salaireNet }}</div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-12 col-md-6 mb-3">
                   <label for="dateCreation" class="form-label">Date de Création</label>
                   <input type="text" class="form-control" id="dateCreation" name="dateCreation" [value]="user.dateCreation ? formatDate(user.dateCreation) : ''" disabled>
                 </div>

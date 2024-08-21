@@ -17,4 +17,7 @@ export class User {
   fonctions!: Fonction[];
   dateCreation!: Date | string;
   dateUpdate!: Date | string;
+  salaireBase!: number;
+  prime!: number;
+  salaireNet!: number;
 }
