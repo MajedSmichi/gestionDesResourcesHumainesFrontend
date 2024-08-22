@@ -104,7 +104,7 @@ export class ListAttestationDeTravailComponent implements OnInit {
         </div>
         <div class="signature" style="margin-top: 40px; margin-left: 30px;  text-align: left;">
             <div class="date">
-                <p>Fait à MANNOUBA, le ${currentDate}</p>
+                <p>Fait à Mannouba, le ${currentDate}</p>
             </div>
             <div class="sign">
                 <p>${this.authService.getCurrentUserFromToken().nom} ${this.authService.getCurrentUserFromToken().prenom}</p>
