@@ -1,0 +1,33 @@
+<main class="content">
+
+    <h2>Demand Payslip List</h2>
+    <div class="row g-3">
+      <div *ngIf="attestation.length === 0" class="col-12">
+        <p class="text-center">No Payslip available.</p>
+      </div>
+      <div class="col-12 col-md-6 col-lg-4" *ngFor="let demande of attestation">
+        <div class="card shadow-sm border-0 rounded-lg h-100">
+          <div class="card-body d-flex flex-column align-items-start">
+            <div class="d-flex w-100 align-items-center">
+              <div class="flex-shrink-0">
+                <img class="rounded-circle" [src]="demande.user.photo || 'assets/placeholder.png'" alt="{{ demande.user.nom }}" style="width: 100px; height: 100px; object-fit: cover;">
+              </div>
+              <div class="flex-grow-1 ms-3">
+                <h5 class="card-title mb-0">{{ demande.user.nom }} {{ demande.user.prenom }}</h5>
+              </div>
+            </div>
+            <div class="mt-3">
+              <p class="card-text"><strong>Date De Creation:</strong> {{ demande.dateDeCreation | date }}</p>
+              <p class="card-text"><strong>salaireBase:</strong> {{ demande.user.salaireBase }} DT</p>
+              <p class="card-text"><strong>salaireNet</strong> {{ demande.user.salaireNet }} DT</p>
+              <p class="card-text"><strong>Status:</strong> <span [ngClass]="getStatusClass(demande.statut)">{{ demande.statut }}</span></p>
+              <div *ngIf="demande.statut === 'PENDING'" class="mt-3 d-flex justify-content-between w-100">
+                <button class="btn btn-success btn-md me-0.5" (click)="acceptDemand(demande)">Accept</button>
+                <button class="btn btn-danger btn-md ms-0.5" (click)="refuseDemand(demande)">Refuse</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+</main>

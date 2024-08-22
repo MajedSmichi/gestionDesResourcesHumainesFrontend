@@ -174,4 +174,5 @@ export class AttestationDeTravailFormComponent implements OnInit {
     // }
     return attestation;
   }
+
 }

@@ -91,6 +91,9 @@ export class AuthService {
       postes: [{ posteType: decodedToken.poste }],
       roles: [{ roleType: decodedToken.roles }],
       fonctions: [{ fonctionType: decodedToken.fonctions }],
+      salaireBase:decodedToken.salaireBase,
+      salaireNet:decodedToken.salaireNet,
+      prime:decodedToken.prime
     } as User;
   }
 

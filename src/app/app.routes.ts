@@ -12,6 +12,8 @@ import {AttestationDeTravailFormComponent} from "./pages/attestation-de-travail/
 import {
   ListAttestationDeTravailComponent
 } from "./pages/attestation-de-travail/list-attestation-de-travail/list-attestation-de-travail.component";
+import {FicheDePaieComponent} from "./pages/fiche-de-paie/add-fiche-de-paie/fiche-de-paie.component";
+import {FicheDePaieListComponent} from "./pages/fiche-de-paie/fiche-de-paie-list/fiche-de-paie-list.component";
 
 export const routes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -25,6 +27,8 @@ export const routes: Routes = [
   { path: 'list-conge', component: ListCongeComponent },
   { path: 'work-certificate', component:AttestationDeTravailFormComponent},
   { path: 'list-Work-certificate', component:ListAttestationDeTravailComponent},
+  { path: 'payslip', component:FicheDePaieComponent},
+  { path: 'payslip-list', component:FicheDePaieListComponent},
   { path: '', redirectTo: '/login', pathMatch: 'full' },
   { path: '**', redirectTo: '/login' }
 ];
