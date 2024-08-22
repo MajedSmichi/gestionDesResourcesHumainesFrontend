@@ -88,7 +88,7 @@ export class AuthService {
       telephone: decodedToken.telephone,
       soldeConges: decodedToken.soldeConges,
       active: decodedToken.active,
-      postes: [{ posteType: decodedToken.poste }],
+      postes: [{ posteType: decodedToken.postes }],
       roles: [{ roleType: decodedToken.roles }],
       fonctions: [{ fonctionType: decodedToken.fonctions }],
       salaireBase:decodedToken.salaireBase,
